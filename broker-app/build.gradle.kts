@@ -11,7 +11,6 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":broker-commons"))
     testCompile("junit", "junit", "4.12")
 }
 
