@@ -13,7 +13,7 @@ import java.time.OffsetDateTime
 data class BrokerProject(
     @field:Id var id: NitriteId? = null,
     val name: String,
-    val description: String,
+    val description: String = "",
     val originalUrl: String,
     val token: String,
     val createdDate: OffsetDateTime = OffsetDateTime.now(),
