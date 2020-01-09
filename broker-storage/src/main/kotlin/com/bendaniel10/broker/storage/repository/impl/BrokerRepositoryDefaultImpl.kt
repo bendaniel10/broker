@@ -7,7 +7,7 @@ import org.dizitart.no2.SortOrder
 import org.dizitart.no2.objects.ObjectRepository
 
 internal open class BrokerRepositoryDefaultImpl<T>(
-    private val objectRepository: ObjectRepository<T>
+    protected val objectRepository: ObjectRepository<T>
 ) : BrokerRepository<T> {
 
     override fun save(model: T) {

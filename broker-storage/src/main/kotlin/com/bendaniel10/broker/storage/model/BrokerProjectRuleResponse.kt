@@ -8,7 +8,7 @@ class BrokerProjectRuleResponse(
     @field:Id val id: NitriteId? = null,
     val brokerProjectRuleId: NitriteId,
     val body: String,
-    val header: String,
+    val headers: String, // serialized map [String, String]
     val httpResponseCode: Int,
     val createdDate: OffsetDateTime = OffsetDateTime.now()
 )

@@ -1,4 +1,7 @@
 <html>
+<head>
+    <title>Broker</title>
+</head>
 <body>
 <h1>New Project</h1>
 <hr/>
