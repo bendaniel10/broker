@@ -13,10 +13,15 @@ class CreateBrokerProjectUseCaseImpl(
         brokerProjectRepository.save(model.toBrokerProject())
     }
 
-    override fun view(): FreeMarkerContent {
+    override fun view(parameters: Map<String, String>): FreeMarkerContent {
         return FreeMarkerContent(
-            "create_broker_project.ftl",
+            templateFileName(),
             emptyMap<String, String>()
         )
     }
+
+    override fun viewPathUrl(parameters: Map<String, String>) =
+        buildPathUrlWithParameters("/create_broker_project", parameters)
+
+    override fun templateFileName() = "create_broker_project.ftl"
 }

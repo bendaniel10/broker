@@ -6,3 +6,4 @@ build
 /.gradle/
 /.idea/
 /data/
+/broker-app/data/

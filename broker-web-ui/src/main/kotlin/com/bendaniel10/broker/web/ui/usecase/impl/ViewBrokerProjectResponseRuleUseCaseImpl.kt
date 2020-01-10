@@ -35,7 +35,8 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
             }
     }
 
-    override fun view(brokerProjectToken: String): FreeMarkerContent {
+    override fun view(parameters: Map<String, String>): FreeMarkerContent {
+        val brokerProjectToken = requireNotNull(parameters["brokerProjectToken"])
         val brokerProject = brokerProjectRepository.getByToken(brokerProjectToken)
         val viewBrokerProjectResponseRuleModel = getPaginatedBrokerProjectResponseRule(
             requireNotNull(brokerProject.id).idValue,
@@ -43,7 +44,7 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
             Int.MAX_VALUE
         )
         return FreeMarkerContent(
-            "view_broker_project_response.ftl",
+            templateFileName(),
             mapOf(
                 "rules" to viewBrokerProjectResponseRuleModel,
                 "brokerProjectName" to brokerProject.name,
@@ -51,4 +52,10 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
             )
         )
     }
+
+    override fun viewPathUrl(parameters: Map<String, String>): String {
+        return buildPathUrlWithParameters("/view_broker_project_response", parameters)
+    }
+
+    override fun templateFileName() = "view_broker_project_response.ftl"
 }

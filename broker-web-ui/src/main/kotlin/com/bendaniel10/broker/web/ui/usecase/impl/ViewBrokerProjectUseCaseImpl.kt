@@ -13,10 +13,14 @@ class ViewBrokerProjectUseCaseImpl(
         brokerProjectRepository.getItems(start, size)
             .map { ViewBrokerProjectModel.fromBrokerProject(it) }
 
-    override fun view(): FreeMarkerContent {
+    override fun view(parameters: Map<String, String>): FreeMarkerContent {
         return FreeMarkerContent(
-            "view_broker_project.ftl",
+            templateFileName(),
             mapOf("brokerProjects" to getPaginatedBrokerProjects(0, Int.MAX_VALUE))
         )
     }
+
+    override fun viewPathUrl(parameters: Map<String, String>) = "/"
+
+    override fun templateFileName() = "view_broker_project.ftl"
 }

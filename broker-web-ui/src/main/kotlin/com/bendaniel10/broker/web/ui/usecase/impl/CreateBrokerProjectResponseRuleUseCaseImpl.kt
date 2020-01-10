@@ -15,7 +15,8 @@ class CreateBrokerProjectResponseRuleUseCaseImpl(
     private val brokerProjectRuleResponseRepository: BrokerProjectRuleResponseRepository
 ) : CreateBrokerProjectResponseRuleUseCase {
 
-    override fun view(brokerProjectToken: String): FreeMarkerContent {
+    override fun view(parameters: Map<String, String>): FreeMarkerContent {
+        val brokerProjectToken = requireNotNull(parameters["brokerProjectToken"])
         val brokerProject = brokerProjectRepository.getByToken(brokerProjectToken)
         return FreeMarkerContent(
             "create_broker_project_response_rule.ftl",
@@ -47,4 +48,9 @@ class CreateBrokerProjectResponseRuleUseCaseImpl(
 
         brokerProjectRuleResponseRepository.save(brokerProjectRuleResponse)
     }
+
+    override fun templateFileName() = "create_broker_project_response_rule.ftl"
+
+    override fun viewPathUrl(parameters: Map<String, String>) =
+        buildPathUrlWithParameters("/create_broker_project_response_rule", parameters)
 }
