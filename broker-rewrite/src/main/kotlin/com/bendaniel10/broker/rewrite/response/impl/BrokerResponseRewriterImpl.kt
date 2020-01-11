@@ -87,10 +87,8 @@ internal class BrokerResponseRewriterImpl(
         brokerProject: BrokerProject,
         requestUri: URI
     ) {
-        println("Pass through for $requestUri")
         val client = HttpClient()
         val recreatedOriginalRequest = buildOriginalRequest(context, brokerProject, requestUri)
-        println("Recreated url: ${recreatedOriginalRequest.url.buildString()}")
         withContext(coroutineContext) {
             val originalResponse = client.call(recreatedOriginalRequest)
             context.respond(object : OutgoingContent.WriteChannelContent() {
@@ -109,7 +107,6 @@ internal class BrokerResponseRewriterImpl(
                 override val status: HttpStatusCode? = originalResponse.response.status
 
                 override suspend fun writeTo(channel: ByteWriteChannel) {
-                    println("Writing response to channel.")
                     originalResponse.response.content.copyAndClose(channel)
                 }
             })
