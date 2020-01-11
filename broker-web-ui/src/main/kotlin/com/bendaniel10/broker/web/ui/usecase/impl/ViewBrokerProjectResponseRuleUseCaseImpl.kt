@@ -1,8 +1,10 @@
 package com.bendaniel10.broker.web.ui.usecase.impl
 
+import com.bendaniel10.broker.storage.model.BrokerProject
 import com.bendaniel10.broker.storage.repository.BrokerProjectRepository
 import com.bendaniel10.broker.storage.repository.BrokerProjectRuleRepository
 import com.bendaniel10.broker.storage.repository.BrokerProjectRuleResponseRepository
+import com.bendaniel10.broker.web.ui.error.ErrorPage
 import com.bendaniel10.broker.web.ui.model.ViewBrokerProjectResponseRuleModel
 import com.bendaniel10.broker.web.ui.usecase.ViewBrokerProjectResponseRuleUseCase
 import io.ktor.freemarker.FreeMarkerContent
@@ -37,7 +39,8 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
 
     override fun view(parameters: Map<String, String>): FreeMarkerContent {
         val brokerProjectToken = requireNotNull(parameters["brokerProjectToken"])
-        val brokerProject = brokerProjectRepository.getByToken(brokerProjectToken).firstOrDefault()
+        val brokerProject: BrokerProject = brokerProjectRepository.getByToken(brokerProjectToken).firstOrDefault()
+            ?: return ErrorPage.instance("Invalid project token.")
         val viewBrokerProjectResponseRuleModel = getPaginatedBrokerProjectResponseRule(
             requireNotNull(brokerProject.id).idValue,
             0,

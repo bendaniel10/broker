@@ -1,5 +1,6 @@
 package com.bendaniel10.broker.web.ui.usecase.impl
 
+import com.bendaniel10.broker.storage.model.BrokerProject
 import com.bendaniel10.broker.storage.model.BrokerProjectRule
 import com.bendaniel10.broker.storage.model.BrokerProjectRuleResponse
 import com.bendaniel10.broker.storage.repository.BrokerProjectRepository
@@ -18,14 +19,13 @@ class CreateBrokerProjectResponseRuleUseCaseImpl(
 
     override fun view(parameters: Map<String, String>): FreeMarkerContent {
         val brokerProjectToken = requireNotNull(parameters["brokerProjectToken"])
-        val brokerProject = brokerProjectRepository.getByToken(brokerProjectToken)
-            .takeIf { it.size() > 0 }
-            ?.first()
-            ?: return ErrorPage.instance("Invalid project")
+        val brokerProject: BrokerProject = brokerProjectRepository.getByToken(brokerProjectToken)
+            .firstOrDefault() ?: return ErrorPage.instance("Invalid project")
 
         return FreeMarkerContent(
             "create_broker_project_response_rule.ftl",
             mapOf(
+                "originalUrl" to brokerProject.originalUrl,
                 "brokerProjectName" to brokerProject.name,
                 "brokerProjectToken" to brokerProjectToken
             )
