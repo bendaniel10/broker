@@ -13,7 +13,7 @@ class BrokerStatusPageServerFeature : BrokerServerFeature {
     override fun install(application: Application) {
         application.install(StatusPages) {
             exception<Throwable> { cause ->
-                cause.toString()
+                cause.printStackTrace()
                 call.respond(HttpStatusCode.InternalServerError, Arrays.toString(cause.stackTrace))
             }
         }

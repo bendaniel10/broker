@@ -37,7 +37,7 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
 
     override fun view(parameters: Map<String, String>): FreeMarkerContent {
         val brokerProjectToken = requireNotNull(parameters["brokerProjectToken"])
-        val brokerProject = brokerProjectRepository.getByToken(brokerProjectToken)
+        val brokerProject = brokerProjectRepository.getByToken(brokerProjectToken).firstOrDefault()
         val viewBrokerProjectResponseRuleModel = getPaginatedBrokerProjectResponseRule(
             requireNotNull(brokerProject.id).idValue,
             0,
