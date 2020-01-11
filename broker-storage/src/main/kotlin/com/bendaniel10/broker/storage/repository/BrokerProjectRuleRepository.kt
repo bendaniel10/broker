@@ -9,4 +9,6 @@ interface BrokerProjectRuleRepository : BrokerRepository<BrokerProjectRule> {
         start: Int,
         size: Int
     ): Cursor<BrokerProjectRule>
+
+    fun getBrokerProjectRuleByUrlAndProjectId(brokerProjectId: Long, url: String): Cursor<BrokerProjectRule>
 }

@@ -6,6 +6,7 @@ dependencies {
     implementation(project(":broker-server"))
     implementation(project(":broker-storage"))
     implementation(project(":broker-web-ui"))
+    implementation(project(":broker-rewrite"))
     implementation("org.koin:koin-core:$koinVersion")
 }
 

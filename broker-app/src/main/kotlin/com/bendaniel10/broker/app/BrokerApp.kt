@@ -1,5 +1,6 @@
 package com.bendaniel10.broker.app
 
+import com.bendaniel10.broker.rewrite.di.BrokerRewriteModule
 import com.bendaniel10.broker.server.BrokerServer
 import com.bendaniel10.broker.server.di.BrokerServerModule
 import com.bendaniel10.broker.storage.di.StorageModule
@@ -15,6 +16,7 @@ object BrokerApp {
                 listOf(
                     StorageModule.instance(),
                     WebUIModule.instance(),
+                    BrokerRewriteModule.instance(),
                     BrokerServerModule.instance()
                 )
             )
