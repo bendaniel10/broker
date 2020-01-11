@@ -2,6 +2,7 @@ val ktorVersion: String by project
 val koinVersion: String by project
 val kotlinLogging: String by project
 val sl4jVersion: String by project
+val kotlinXCoroutinesCoreVersion: String by project
 
 dependencies {
     implementation(project(":broker-storage"))
@@ -11,4 +12,6 @@ dependencies {
     implementation("io.ktor:ktor-client-apache:$ktorVersion")
     implementation("io.github.microutils:kotlin-logging:$kotlinLogging")
     implementation("org.slf4j:slf4j-simple:$sl4jVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinXCoroutinesCoreVersion")
+
 }

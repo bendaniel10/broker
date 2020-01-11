@@ -20,10 +20,14 @@ import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.util.filter
 import io.ktor.util.pipeline.PipelineContext
+import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.copyAndClose
+import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import java.net.URI
+import java.net.URL
+import kotlin.coroutines.coroutineContext
 
 internal class BrokerResponseRewriterImpl(
     private val projectRepository: BrokerProjectRepository,
@@ -36,9 +40,7 @@ internal class BrokerResponseRewriterImpl(
     override suspend fun rewrite(pipelineContext: PipelineContext<Unit, ApplicationCall>) {
         val context = pipelineContext.context
         val brokerProjectToken = context.request.header("broker_project_token")
-        if (brokerProjectToken == null) {
-            context.respond(HttpStatusCode.BadRequest)
-        } else {
+        if (brokerProjectToken != null) {
             interceptRequestAndMockResponse(
                 context,
                 brokerProjectToken
@@ -73,7 +75,7 @@ internal class BrokerResponseRewriterImpl(
                     0,
                     Int.MAX_VALUE
                 ).first()
-            println( "Rewriting response for: $requestUriPath. Response: ${brokerProjectRuleResponse.body}" )
+            println("Rewriting response for: $requestUriPath. Response: ${brokerProjectRuleResponse.body}")
             context.respondText(brokerProjectRuleResponse.body, ContentType.Application.Json, HttpStatusCode.OK)
         } else {
             passThroughRequestAndReturnResponse(context, brokerProject, requestUri)
@@ -85,29 +87,33 @@ internal class BrokerResponseRewriterImpl(
         brokerProject: BrokerProject,
         requestUri: URI
     ) {
-        println( "Pass through for $requestUri" )
+        println("Pass through for $requestUri")
         val client = HttpClient()
         val recreatedOriginalRequest = buildOriginalRequest(context, brokerProject, requestUri)
-        print("foo ${recreatedOriginalRequest.url.host}")
-        val originalResponse = client.call(recreatedOriginalRequest)
-        context.respond(object : OutgoingContent.WriteChannelContent() {
-            val originalHeaders = originalResponse.response.headers
-            override val contentLength: Long? = originalHeaders[HttpHeaders.ContentLength]?.toLong()
-            override val contentType: ContentType? =
-                originalHeaders[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
-            override val headers: Headers = Headers.build {
-                appendAll(originalHeaders.filter { key, _ ->
-                    !key.equals(
-                        HttpHeaders.ContentType,
-                        ignoreCase = true
-                    ) && !key.equals(HttpHeaders.ContentLength, ignoreCase = true)
-                })
-            }
-            override val status: HttpStatusCode? = originalResponse.response.status
-            override suspend fun writeTo(channel: ByteWriteChannel) {
-                originalResponse.response.content.copyAndClose(channel)
-            }
-        })
+        println("Recreated url: ${recreatedOriginalRequest.url.buildString()}")
+        withContext(coroutineContext) {
+            val originalResponse = client.call(recreatedOriginalRequest)
+            context.respond(object : OutgoingContent.WriteChannelContent() {
+                val originalHeaders = originalResponse.response.headers
+                override val contentLength: Long? = originalHeaders[HttpHeaders.ContentLength]?.toLong()
+                override val contentType: ContentType? =
+                    originalHeaders[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
+                override val headers: Headers = Headers.build {
+                    appendAll(originalHeaders.filter { key, _ ->
+                        !key.equals(
+                            HttpHeaders.ContentType,
+                            ignoreCase = true
+                        ) && !key.equals(HttpHeaders.ContentLength, ignoreCase = true)
+                    })
+                }
+                override val status: HttpStatusCode? = originalResponse.response.status
+
+                override suspend fun writeTo(channel: ByteWriteChannel) {
+                    println("Writing response to channel.")
+                    originalResponse.response.content.copyAndClose(channel)
+                }
+            })
+        }
     }
 
     private fun buildOriginalRequest(
@@ -119,13 +125,18 @@ internal class BrokerResponseRewriterImpl(
             method = context.request.httpMethod
             url {
                 takeFrom(requestUri)
-                host = brokerProject.originalUrl
+                val originalUri = URL(brokerProject.originalUrl)
+                host = originalUri.host
+                protocol = URLProtocol.createOrDefault(originalUri.protocol)
+                port = originalUri.port.takeIf { it > 0 } ?: DEFAULT_PORT
             }
             headers {
                 this.appendAll(context.request.headers)
             }
-            body = context.request.receiveChannel()
-        }.also {
-            print("recreated url: ${it.url}")
+            body = object : OutgoingContent.ReadChannelContent() {
+                override fun readFrom(): ByteReadChannel {
+                    return context.request.receiveChannel()
+                }
+            }
         }
 }
