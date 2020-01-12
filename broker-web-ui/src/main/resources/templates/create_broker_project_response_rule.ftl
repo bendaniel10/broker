@@ -7,7 +7,8 @@
 <body>
 <div class="container">
     <#include "/general_page_nav.ftl">
-    <h2 class="bordered-bottom">Response rule for ${brokerProjectName}</h2>
+    <h2>Response rule for ${brokerProjectName}</h2>
+    <br/>
     <form method="post" action="/create_broker_project_response_rule">
         <input class="form-control" type="hidden" value="${brokerProjectToken}" name="brokerProjectToken"/>
         <div class="form-group">
@@ -32,8 +33,15 @@
             <label for="httpResponseCode">Response code</label>
             <input class="form-control" id="httpResponseCode" placeholder="A valid HTTP status code." name="httpResponseCode" type="number"/>
         </div>
-        <input class="btn btn-primary" type="submit" value="Submit"/>
-        <a href="javascript:history.back()">Go Back</a>
+        <div class="btn-toolbar" role="toolbar" aria-label="Tool bar for create project response rule actions.">
+            <div class="btn-group" role="group" aria-label="Go back">
+                <a class="btn btn-outline-secondary" role="button" href="javascript:history.back()">Go Back</a>
+            </div>
+            &nbsp;&nbsp;
+            <div class="btn-group" role="group" aria-label="Create project response rule">
+                <input class="btn btn-primary" type="submit" value="Submit"/>
+            </div>
+        </div>
     </form>
     <#include "/general_page_script.ftl">
 </div>

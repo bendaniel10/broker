@@ -8,6 +8,7 @@ import com.bendaniel10.broker.web.ui.error.ErrorPage
 import com.bendaniel10.broker.web.ui.model.ViewBrokerProjectResponseRuleModel
 import com.bendaniel10.broker.web.ui.usecase.ViewBrokerProjectResponseRuleUseCase
 import io.ktor.freemarker.FreeMarkerContent
+import kotlin.math.min
 
 class ViewBrokerProjectResponseRuleUseCaseImpl(
     private val brokerProjectRepository: BrokerProjectRepository,
@@ -30,8 +31,8 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
                     ViewBrokerProjectResponseRuleModel(
                         requireNotNull(brokerProjectRule.id).idValue.toString(),
                         brokerProjectRule.urlTrigger,
-                        body,
-                        headers,
+                        body.substring(0..min(20, body.length - 1)),
+                        headers.substring(0..min(20, headers.length - 1)),
                         httpResponseCode
                     )
                 }

@@ -11,7 +11,7 @@
     <h2 class="border-bottom">How to Broker</h2>
     <br /> <br />
     <p>
-        Coming soon.
+        Create a project then specify the rules that broker will use to rewrite your http calls.
     </p>
 </div>
 <#include "/general_page_script.ftl">

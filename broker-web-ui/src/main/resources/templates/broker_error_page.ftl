@@ -5,6 +5,7 @@
     <title>Broker - Error</title>
 </head>
 <body>
+
     <div class="container">
         <#include "/general_page_nav.ftl">
         <div class="card text-center">
@@ -15,5 +16,6 @@
             </div>
         </div>
     </div>
+    <#include "/general_page_script.ftl">
 </body>
 </html>
