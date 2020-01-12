@@ -21,10 +21,10 @@
             <label for="originalUrl">Original URL</label>
             <input class="form-control" id="originalUrl" placeholder="Your current base url" name="originalUrl" aria-describedby="originalUrlHelpBlock"/>
             <small id="originalUrlHelpBlock" class="form-text text-muted">
-                This is your base actual base url. For example: http://www.myproject.com.
+                This is your base actual base url. For example: http://www.myproject.com
             </small>
         </div>
-        <input class="btn btn-primary" type="submit" value="Submit"/>
+        <input class="btn btn-primary" type="submit" value="Create Project"/>
         <a href="javascript:history.back()">Go Back</a>
     </form>
 </div>

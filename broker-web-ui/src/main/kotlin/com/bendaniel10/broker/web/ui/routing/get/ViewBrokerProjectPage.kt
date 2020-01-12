@@ -7,7 +7,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.response.respond
 
 class ViewBrokerProjectPage(private val viewBrokerProjectUseCase: ViewBrokerProjectUseCase) :
-    HttpMethodRoutingInterceptor(HttpMethod.Get, viewBrokerProjectUseCase.viewPathUrl(emptyMap())) {
+    HttpMethodRoutingInterceptor(HttpMethod.Get, viewBrokerProjectUseCase.viewPathUrl()) {
 
     override suspend fun intercept(call: ApplicationCall) {
         call.respond(viewBrokerProjectUseCase.view())

@@ -18,7 +18,7 @@
             <th>Original url</th>
             <th>Token</th>
             <th>Enabled</th>
-            <th>Rules</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -28,7 +28,10 @@
             <td>${project.originalUrl}</td>
             <td>${project.token}</td>
             <td>${project.enabled}</td>
-            <td><a href="/view_broker_project_response?brokerProjectToken=${project.token}">View response rule</a></td>
+            <td>
+                <a href="/view_broker_project_response?brokerProjectToken=${project.token}">View response rule</a>
+                <a href="/edit_broker_project?brokerProjectToken=${project.token}">Edit project</a>
+            </td>
         </tr>
         </#list>
     </tbody>
