@@ -14,7 +14,7 @@
             <label for="urlTrigger">URL trigger</label>
             <input id="urlTrigger" placeholder="my/url/trigger" name="urlTrigger" class="form-control"/>
             <small id="urlTriggerHelpBlock" class="form-text text-muted" aria-describedby="urlTriggerHelpBlock">
-                This is the path after your base url, excluding the first /. E.g ${originalUrl}/change/me/to/set/trigger
+                This is the path after your base url, excluding the first /. E.g ${originalUrl}/<strong>change/me/to/set/trigger</strong>
             </small>
         </div>
         <div class="form-group">

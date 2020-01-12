@@ -18,6 +18,7 @@
             <th>Response body</th>
             <th>Response headers</th>
             <th>Response code</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,9 @@
             <td>${rule.body}</td>
             <td>${rule.headers}</td>
             <td>${rule.httpResponseCode}</td>
+            <td>
+                <a href="/edit_broker_project_response_rule?brokerProjectRuleId=${rule.brokerProjectRuleId}">Edit rule</a>
+            </td>
         </tr>
         </#list>
     </tbody>
