@@ -28,6 +28,7 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
                     size
                 ).first().run {
                     ViewBrokerProjectResponseRuleModel(
+                        requireNotNull(brokerProjectRule.id).idValue.toString(),
                         brokerProjectRule.urlTrigger,
                         body,
                         headers,

@@ -23,7 +23,7 @@ class CreateBrokerProjectResponseRuleUseCaseImpl(
             .firstOrDefault() ?: return ErrorPage.instance("Invalid project")
 
         return FreeMarkerContent(
-            "create_broker_project_response_rule.ftl",
+            templateFileName(),
             mapOf(
                 "originalUrl" to brokerProject.originalUrl,
                 "brokerProjectName" to brokerProject.name,

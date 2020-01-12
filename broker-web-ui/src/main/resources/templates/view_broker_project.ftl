@@ -29,7 +29,7 @@
             <td>${project.token}</td>
             <td>${project.enabled}</td>
             <td>
-                <a href="/view_broker_project_response?brokerProjectToken=${project.token}">View response rule</a>
+                <a href="/view_broker_project_response?brokerProjectToken=${project.token}">View response rule</a> &#124;
                 <a href="/edit_broker_project?brokerProjectToken=${project.token}">Edit project</a>
             </td>
         </tr>

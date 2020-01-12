@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" <#if brokerProjectEnabled> checked </#if> id="brokerProjectEnabled" name="brokerProjectEnabled" value="true" />
+                <input class="form-check-input" type="checkbox"  id="brokerProjectEnabled" name="brokerProjectEnabled" value="true" <#if brokerProjectEnabled> checked </#if> />
                 <label class="form-check-label" for="brokerProjectEnabled">
                     Enabled
                 </label>
