@@ -6,7 +6,9 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="border-bottom">Projects</h1>
+    <#include "/general_page_nav.ftl">
+
+    <h2 class="border-bottom">My Projects</h2>
     <a href="/create_broker_project" class="btn btn-primary float-right">New Project</a>
     <br /> <br />
     <table class="table table-striped table-hover">

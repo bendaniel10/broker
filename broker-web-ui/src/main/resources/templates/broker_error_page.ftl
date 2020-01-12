@@ -6,6 +6,7 @@
 </head>
 <body>
     <div class="container">
+        <#include "/general_page_nav.ftl">
         <div class="card text-center">
             <div class="card-body">
                 <h5 class="card-title">An error has occured.</h5>

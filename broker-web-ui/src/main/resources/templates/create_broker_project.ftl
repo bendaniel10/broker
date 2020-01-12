@@ -6,7 +6,8 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="border-bottom">New Project</h1>
+    <#include "/general_page_nav.ftl">
+    <h2 class="border-bottom">New Project</h2>
     <form method="post" action="/create_broker_project">
         <div class="form-group">
             <label for="name">Project name</label>

@@ -6,7 +6,8 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="bordered-bottom">Response rules for ${brokerProjectName}</h1>
+    <#include "/general_page_nav.ftl">
+    <h2 class="bordered-bottom">Response rules for ${brokerProjectName}</h2>
 
     <a href="/create_broker_project_response_rule?brokerProjectToken=${brokerProjectToken}" class="btn btn-primary float-right">Create Response Rule</a>
     <br/><br/>
