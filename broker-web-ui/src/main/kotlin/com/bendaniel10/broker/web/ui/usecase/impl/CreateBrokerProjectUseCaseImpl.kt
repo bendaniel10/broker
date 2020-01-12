@@ -16,7 +16,7 @@ class CreateBrokerProjectUseCaseImpl(
     override fun view(parameters: Map<String, String>): FreeMarkerContent {
         return FreeMarkerContent(
             templateFileName(),
-            emptyMap<String, String>()
+            parameters
         )
     }
 

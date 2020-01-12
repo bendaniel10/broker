@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/">Home</a>
-            <a class="nav-item nav-link" href="/how_to">How to</a>
+            <a class="nav-item nav-link" href="/how_to_broker">How to</a>
             <a class="nav-item nav-link" href="https://github.com/bendaniel10/broker">Source code</a>
         </div>
     </div>
