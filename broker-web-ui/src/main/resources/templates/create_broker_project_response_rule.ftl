@@ -6,7 +6,8 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="bordered-bottom">Response rule for ${brokerProjectName}</h1>
+    <#include "/general_page_nav.ftl">
+    <h2 class="bordered-bottom">Response rule for ${brokerProjectName}</h2>
     <form method="post" action="/create_broker_project_response_rule">
         <input class="form-control" type="hidden" value="${brokerProjectToken}" name="brokerProjectToken"/>
         <div class="form-group">
