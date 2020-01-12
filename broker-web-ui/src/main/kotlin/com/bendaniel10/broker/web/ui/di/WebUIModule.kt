@@ -4,12 +4,9 @@ import com.bendaniel10.broker.web.ui.feature.BrokerFreeMarkerServerFeature
 import com.bendaniel10.broker.web.ui.routing.get.*
 import com.bendaniel10.broker.web.ui.routing.post.CreateBrokerProjectPageAction
 import com.bendaniel10.broker.web.ui.routing.post.CreateBrokerProjectResponseRulePageAction
+import com.bendaniel10.broker.web.ui.routing.post.EditBrokerProjectPageAction
 import com.bendaniel10.broker.web.ui.usecase.*
-import com.bendaniel10.broker.web.ui.usecase.impl.CreateBrokerProjectUseCaseImpl
-import com.bendaniel10.broker.web.ui.usecase.impl.HowToBrokerUseCaseImpl
-import com.bendaniel10.broker.web.ui.usecase.impl.ViewBrokerProjectUseCaseImpl
-import com.bendaniel10.broker.web.ui.usecase.impl.CreateBrokerProjectResponseRuleUseCaseImpl
-import com.bendaniel10.broker.web.ui.usecase.impl.ViewBrokerProjectResponseRuleUseCaseImpl
+import com.bendaniel10.broker.web.ui.usecase.impl.*
 import org.koin.dsl.module
 
 object WebUIModule {
@@ -27,6 +24,7 @@ object WebUIModule {
         }
         single<ViewBrokerProjectResponseRuleUseCase> { ViewBrokerProjectResponseRuleUseCaseImpl(get(), get(), get()) }
         single<HowToBrokerUseCase> { HowToBrokerUseCaseImpl() }
+        single<EditBrokerProjectUseCase> { EditBrokerProjectUseCaseImpl(get()) }
 
         // Routing - GET.
         single { ViewBrokerProjectPage(get()) }
@@ -34,10 +32,12 @@ object WebUIModule {
         single { CreateBrokerProjectResponseRulePage(get()) }
         single { ViewBrokerProjectResponseRulePage(get()) }
         single { HowToBrokerPage(get()) }
+        single { EditBrokerProjectPage(get()) }
 
         // Routing - POST.
         single { CreateBrokerProjectPageAction(get(), get()) }
         single { CreateBrokerProjectResponseRulePageAction(get(), get()) }
+        single { EditBrokerProjectPageAction(get(), get()) }
 
         // Server feature.
         single { BrokerFreeMarkerServerFeature() }

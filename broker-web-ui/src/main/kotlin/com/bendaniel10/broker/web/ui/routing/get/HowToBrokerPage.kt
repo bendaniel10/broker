@@ -10,6 +10,7 @@ import io.ktor.util.flattenEntries
 class HowToBrokerPage(
     private val howToBrokerUseCase: HowToBrokerUseCase
 ) : HttpMethodRoutingInterceptor(HttpMethod.Get, howToBrokerUseCase.viewPathUrl()) {
+    
     override suspend fun intercept(call: ApplicationCall) {
         call.respond(howToBrokerUseCase.view(call.request.queryParameters.flattenEntries().toMap()))
     }
