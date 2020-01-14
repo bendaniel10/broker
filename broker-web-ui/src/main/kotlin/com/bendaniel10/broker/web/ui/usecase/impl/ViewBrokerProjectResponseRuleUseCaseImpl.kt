@@ -31,7 +31,7 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
                     ViewBrokerProjectResponseRuleModel(
                         requireNotNull(brokerProjectRule.id).idValue.toString(),
                         brokerProjectRule.urlTrigger,
-                        body.substring(0..min(20, body.length - 1)),
+                        body,
                         headers.substring(0..min(20, headers.length - 1)),
                         httpResponseCode
                     )

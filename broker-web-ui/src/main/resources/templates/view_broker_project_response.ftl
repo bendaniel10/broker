@@ -19,6 +19,7 @@
         </div>
     </div>
     <br/><br/>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -34,7 +35,7 @@
             <#list rules as rule>
             <tr>
                 <td>${rule.urlTrigger}</td>
-                <td>${rule.body}</td>
+                <td><a href="#" data-toggle="modal" data-target="#response_id_${rule.brokerProjectRuleId}">view response</a></td>
                 <td>${rule.headers}</td>
                 <td>${rule.httpResponseCode}</td>
                 <td>
@@ -45,6 +46,27 @@
         </tbody>
     </table>
     </div>
+
+    <#list rules as rule>
+        <div class="modal fade bd-example-modal-xl" id="response_id_${rule.brokerProjectRuleId}" tabindex="-1" role="dialog" aria-labelledby="title_${rule.brokerProjectRuleId}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="title_${rule.brokerProjectRuleId}">${rule.urlTrigger}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <pre>${rule.body}</pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </#list>
 </div>
 <#include "/general_page_script.ftl">
 </body>
