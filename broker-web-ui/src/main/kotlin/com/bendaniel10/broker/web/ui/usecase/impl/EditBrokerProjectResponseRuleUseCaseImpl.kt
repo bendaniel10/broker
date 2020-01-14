@@ -36,7 +36,8 @@ internal class EditBrokerProjectResponseRuleUseCaseImpl(
     }
 
     override fun view(parameters: Map<String, String>): FreeMarkerContent {
-        val brokerProjectRuleId = requireNotNull(parameters["brokerProjectRuleId"]).toLong()
+        val brokerProjectRuleId =
+            requireNotNull(parameters["brokerProjectRuleId"]).toLongOrNull() ?: return ErrorPage.instance("Invalid project rule.")
         val brokerProjectResponse =
             brokerProjectRuleResponseRepository.getBrokerProjectRuleResponseByBrokerProjectRuleId(
                 brokerProjectRuleId,

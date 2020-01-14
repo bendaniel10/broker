@@ -7,7 +7,8 @@
 <body>
 <div class="container">
     <#include "/general_page_nav.ftl">
-    <h2 class="border-bottom">Edit Project (${brokerProjectName})</h2>
+    <h2>Edit Project (${brokerProjectName})</h2>
+    <br/>
     <form method="post" action="/edit_broker_project">
         <input class="form-control" type="hidden" value="${brokerProjectToken}" name="brokerProjectToken"/>
         <div class="form-group">
@@ -33,8 +34,15 @@
                 </label>
             </div>
         </div>
-        <input class="btn btn-primary" type="submit" value="Update project"/>
-        <a href="javascript:history.back()">Go Back</a>
+        <div class="btn-toolbar" role="toolbar" aria-label="Tool bar for edit project actions.">
+            <div class="btn-group" role="group" aria-label="Go back">
+                <a class="btn btn-outline-secondary" role="button" href="javascript:history.back()">Go Back</a>
+            </div>
+            &nbsp;&nbsp;
+            <div class="btn-group" role="group" aria-label="edit project">
+                <input class="btn btn-primary" type="submit" value="Update project"/>
+            </div>
+        </div>
     </form>
 </div>
 <#include "/general_page_script.ftl">
