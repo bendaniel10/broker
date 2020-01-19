@@ -7,7 +7,7 @@ import com.bendaniel10.broker.web.ui.model.EditBrokerProjectModel
 import com.bendaniel10.broker.web.ui.usecase.EditBrokerProjectUseCase
 import io.ktor.freemarker.FreeMarkerContent
 
-class EditBrokerProjectUseCaseImpl(
+internal class EditBrokerProjectUseCaseImpl(
     private val brokerProjectRepository: BrokerProjectRepository
 ) : EditBrokerProjectUseCase {
 

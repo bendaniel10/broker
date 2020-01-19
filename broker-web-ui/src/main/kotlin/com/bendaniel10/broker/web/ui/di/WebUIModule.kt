@@ -2,10 +2,7 @@ package com.bendaniel10.broker.web.ui.di
 
 import com.bendaniel10.broker.web.ui.feature.BrokerFreeMarkerServerFeature
 import com.bendaniel10.broker.web.ui.routing.get.*
-import com.bendaniel10.broker.web.ui.routing.post.CreateBrokerProjectPageAction
-import com.bendaniel10.broker.web.ui.routing.post.CreateBrokerProjectResponseRulePageAction
-import com.bendaniel10.broker.web.ui.routing.post.EditBrokerProjectPageAction
-import com.bendaniel10.broker.web.ui.routing.post.EditBrokerProjectResponseRulePageAction
+import com.bendaniel10.broker.web.ui.routing.post.*
 import com.bendaniel10.broker.web.ui.usecase.*
 import com.bendaniel10.broker.web.ui.usecase.impl.*
 import org.koin.dsl.module
@@ -27,6 +24,7 @@ object WebUIModule {
         single<HowToBrokerUseCase> { HowToBrokerUseCaseImpl() }
         single<EditBrokerProjectUseCase> { EditBrokerProjectUseCaseImpl(get()) }
         single<EditBrokerProjectResponseRuleUseCase> { EditBrokerProjectResponseRuleUseCaseImpl(get(), get(), get()) }
+        single<DeleteBrokerProjectResponseRuleUseCase> { DeleteBrokerProjectResponseRuleUseCaseImpl(get(), get()) }
 
         // Routing - GET.
         single { ViewBrokerProjectPage(get()) }
@@ -42,6 +40,7 @@ object WebUIModule {
         single { CreateBrokerProjectResponseRulePageAction(get(), get()) }
         single { EditBrokerProjectPageAction(get(), get()) }
         single { EditBrokerProjectResponseRulePageAction(get(), get()) }
+        single { DeleteBrokerProjectResponseRuleAction(get(), get()) }
 
         // Server feature.
         single { BrokerFreeMarkerServerFeature() }
