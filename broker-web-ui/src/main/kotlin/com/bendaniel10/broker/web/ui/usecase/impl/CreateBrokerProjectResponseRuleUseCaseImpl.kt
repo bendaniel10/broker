@@ -11,7 +11,7 @@ import com.bendaniel10.broker.web.ui.model.CreateBrokerProjectResponseRuleModel
 import com.bendaniel10.broker.web.ui.usecase.CreateBrokerProjectResponseRuleUseCase
 import io.ktor.freemarker.FreeMarkerContent
 
-class CreateBrokerProjectResponseRuleUseCaseImpl(
+internal class CreateBrokerProjectResponseRuleUseCaseImpl(
     private val brokerProjectRepository: BrokerProjectRepository,
     private val brokerProjectRuleRepository: BrokerProjectRuleRepository,
     private val brokerProjectRuleResponseRepository: BrokerProjectRuleResponseRepository

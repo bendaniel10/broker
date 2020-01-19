@@ -39,7 +39,15 @@
                 <td>${rule.headers}</td>
                 <td>${rule.httpResponseCode}</td>
                 <td>
-                    <a href="/edit_broker_project_response_rule?brokerProjectRuleId=${rule.brokerProjectRuleId}">Edit rule</a>
+                    <a class="btn-link" href="/edit_broker_project_response_rule?brokerProjectRuleId=${rule.brokerProjectRuleId}">Edit</a>
+                    &#124;
+                    <form method="post" action="/delete_broker_project_response_rule" class="d-inline-block" id="rule_id_${rule.brokerProjectRuleId}">
+                        <input type="hidden" name="brokerProjectRuleId" value="${rule.brokerProjectRuleId}" />
+                        <input type="hidden" name="brokerProjectToken" value="${brokerProjectToken}" />
+                        <a href="javascript:{}" onclick="if(confirm('Are you sure you want to delete ${rule.urlTrigger}?')) { document.getElementById('rule_id_${rule.brokerProjectRuleId}').submit()}; return false; ">
+                        Delete
+                        </a>
+                    </form>
                 </td>
             </tr>
             </#list>

@@ -10,7 +10,7 @@ import com.bendaniel10.broker.web.ui.usecase.ViewBrokerProjectResponseRuleUseCas
 import io.ktor.freemarker.FreeMarkerContent
 import kotlin.math.min
 
-class ViewBrokerProjectResponseRuleUseCaseImpl(
+internal class ViewBrokerProjectResponseRuleUseCaseImpl(
     private val brokerProjectRepository: BrokerProjectRepository,
     private val brokerProjectRuleRepository: BrokerProjectRuleRepository,
     private val brokerProjectRuleResponseRepository: BrokerProjectRuleResponseRepository
@@ -22,12 +22,12 @@ class ViewBrokerProjectResponseRuleUseCaseImpl(
         size: Int
     ): List<ViewBrokerProjectResponseRuleModel> {
         return brokerProjectRuleRepository.getBrokerProjectRuleByBrokerProjectId(brokerProjectId, start, size)
-            .map { brokerProjectRule ->
+            .mapNotNull { brokerProjectRule ->
                 brokerProjectRuleResponseRepository.getBrokerProjectRuleResponseByBrokerProjectRuleId(
                     requireNotNull(brokerProjectRule.id).idValue,
                     start,
                     size
-                ).first().run {
+                ).firstOrNull()?.run {
                     ViewBrokerProjectResponseRuleModel(
                         requireNotNull(brokerProjectRule.id).idValue.toString(),
                         brokerProjectRule.urlTrigger,

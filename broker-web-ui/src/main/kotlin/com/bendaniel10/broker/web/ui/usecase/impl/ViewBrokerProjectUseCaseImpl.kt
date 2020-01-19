@@ -5,7 +5,7 @@ import com.bendaniel10.broker.web.ui.model.ViewBrokerProjectModel
 import com.bendaniel10.broker.web.ui.usecase.ViewBrokerProjectUseCase
 import io.ktor.freemarker.FreeMarkerContent
 
-class ViewBrokerProjectUseCaseImpl(
+internal class ViewBrokerProjectUseCaseImpl(
     private val brokerProjectRepository: BrokerProjectRepository
 ) : ViewBrokerProjectUseCase {
 
