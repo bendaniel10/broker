@@ -66,7 +66,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <pre>${rule.body}</pre>
+                        <pre class="prettyprint">${rule.body}</pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -76,6 +76,7 @@
         </div>
     </#list>
 </div>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 <#include "/general_page_script.ftl">
 </body>
         </html>
