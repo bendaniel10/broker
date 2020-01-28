@@ -5,14 +5,14 @@ import com.bendaniel10.broker.storage.repository.BrokerProjectRuleRepository
 import com.bendaniel10.broker.storage.repository.BrokerProjectRuleResponseRepository
 import com.bendaniel10.broker.web.ui.error.ErrorPage
 import com.bendaniel10.broker.web.ui.model.EditBrokerProjectResponseRuleModel
-import com.bendaniel10.broker.web.ui.usecase.EditBrokerProjectResponseRuleUseCase
+import com.bendaniel10.broker.web.ui.usecase.EditBrokerProjectRuleUseCase
 import io.ktor.freemarker.FreeMarkerContent
 
-internal class EditBrokerProjectResponseRuleUseCaseImpl(
+internal class EditBrokerProjectRuleUseCaseImpl(
     private val brokerProjectRepository: BrokerProjectRepository,
     private val brokerProjectRuleRepository: BrokerProjectRuleRepository,
     private val brokerProjectRuleResponseRepository: BrokerProjectRuleResponseRepository
-) : EditBrokerProjectResponseRuleUseCase {
+) : EditBrokerProjectRuleUseCase {
 
     override fun editBrokerProjectResponseRule(model: EditBrokerProjectResponseRuleModel) {
         val brokerProjectRule = brokerProjectRuleRepository.getById(model.brokerProjectRuleId.toLong())
@@ -64,7 +64,7 @@ internal class EditBrokerProjectResponseRuleUseCaseImpl(
     }
 
     override fun viewPathUrl(parameters: Map<String, String>) =
-        buildPathUrlWithParameters("/edit_broker_project_response_rule", parameters)
+        buildPathUrlWithParameters("/edit_broker_project_rule", parameters)
 
-    override fun templateFileName() = "edit_broker_project_response_rule.ftl"
+    override fun templateFileName() = "edit_broker_project_rule.ftl"
 }

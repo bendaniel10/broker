@@ -54,8 +54,8 @@ internal class CreateBrokerProjectResponseRuleUseCaseImpl(
         brokerProjectRuleResponseRepository.save(brokerProjectRuleResponse)
     }
 
-    override fun templateFileName() = "create_broker_project_response_rule.ftl"
+    override fun templateFileName() = "create_broker_project_rule.ftl"
 
     override fun viewPathUrl(parameters: Map<String, String>) =
-        buildPathUrlWithParameters("/create_broker_project_response_rule", parameters)
+        buildPathUrlWithParameters("/create_broker_project_rule", parameters)
 }

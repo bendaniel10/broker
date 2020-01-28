@@ -12,7 +12,7 @@ import io.ktor.response.respondRedirect
 class CreateBrokerProjectResponseRulePageAction(
     private val createBrokerProjectResponseRuleUseCase: CreateBrokerProjectResponseRuleUseCase,
     private val viewBrokerProjectResponseRuleUseCase: ViewBrokerProjectResponseRuleUseCase
-) : HttpMethodRoutingInterceptor(HttpMethod.Post, "/create_broker_project_response_rule") {
+) : HttpMethodRoutingInterceptor(HttpMethod.Post, "/create_broker_project_rule") {
 
     override suspend fun intercept(call: ApplicationCall) {
         val params = call.receiveParameters()

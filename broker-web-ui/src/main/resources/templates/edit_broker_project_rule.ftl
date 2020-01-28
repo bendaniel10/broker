@@ -9,7 +9,7 @@
     <#include "/general_page_nav.ftl">
     <h2>Edit response rule for (${brokerProjectName})</h2>
     <br/>
-    <form method="post" action="/edit_broker_project_response_rule">
+    <form method="post" action="/edit_broker_project_rule">
         <input class="form-control" type="hidden" value="${brokerProjectRuleId}" name="brokerProjectRuleId"/>
         <input class="form-control" type="hidden" value="${brokerProjectToken}" name="brokerProjectToken"/>
     <div class="form-group">
@@ -25,9 +25,9 @@
         </div>
         <div class="form-group">
             <label for="headers">Response body</label>
-            <textarea class="form-control" id="headers" name="headers" placeholder="key=value" cols="40" rows="5" aria-describedby="headersHelpBlock">${headers}</textarea>
+            <textarea class="form-control" id="headers" name="headers" placeholder="key:value" cols="40" rows="5" aria-describedby="headersHelpBlock">${headers}</textarea>
             <small id="headersHelpBlock" class="form-text text-muted" aria-describedby="urlTriggerHelpBlock">
-                Each header must be in a new line in this format: key=value
+                Each header must be in a new line in this format: `key:value`
             </small>
         </div>
         <div class="form-group">

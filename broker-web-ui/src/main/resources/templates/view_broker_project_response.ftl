@@ -15,7 +15,7 @@
         </div>
         &nbsp;&nbsp;
         <div class="btn-group" role="group" aria-label="Create response rule">
-            <a role="button" href="/create_broker_project_response_rule?brokerProjectToken=${brokerProjectToken}" class="btn btn-primary">Create Response Rule</a>
+            <a role="button" href="/create_broker_project_rule?brokerProjectToken=${brokerProjectToken}" class="btn btn-primary">Create Response Rule</a>
         </div>
     </div>
     <br/><br/>
@@ -39,7 +39,7 @@
                 <td>${rule.headers}</td>
                 <td>${rule.httpResponseCode}</td>
                 <td>
-                    <a class="btn-link" href="/edit_broker_project_response_rule?brokerProjectRuleId=${rule.brokerProjectRuleId}">Edit</a>
+                    <a class="btn-link" href="/edit_broker_project_rule?brokerProjectRuleId=${rule.brokerProjectRuleId}">Edit</a>
                     &#124;
                     <form method="post" action="/delete_broker_project_response_rule" class="d-inline-block" id="rule_id_${rule.brokerProjectRuleId}">
                         <input type="hidden" name="brokerProjectRuleId" value="${rule.brokerProjectRuleId}" />

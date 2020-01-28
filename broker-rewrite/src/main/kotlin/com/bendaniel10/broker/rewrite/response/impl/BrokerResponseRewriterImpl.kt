@@ -2,6 +2,7 @@ package com.bendaniel10.broker.rewrite.response.impl
 
 import com.bendaniel10.broker.rewrite.response.BrokerResponseRewriter
 import com.bendaniel10.broker.storage.model.BrokerProject
+import com.bendaniel10.broker.storage.model.BrokerProjectRuleResponse
 import com.bendaniel10.broker.storage.repository.BrokerProjectRepository
 import com.bendaniel10.broker.storage.repository.BrokerProjectRuleRepository
 import com.bendaniel10.broker.storage.repository.BrokerProjectRuleResponseRepository
@@ -17,13 +18,13 @@ import io.ktor.request.httpMethod
 import io.ktor.request.port
 import io.ktor.request.uri
 import io.ktor.response.respond
-import io.ktor.response.respondText
 import io.ktor.util.filter
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.copyAndClose
 import kotlinx.coroutines.withContext
+import kotlinx.io.core.toByteArray
 import mu.KotlinLogging
 import java.net.URI
 import java.net.URL
@@ -68,18 +69,62 @@ internal class BrokerResponseRewriterImpl(
             requestUriPath
         )
         if (brokerProjectRuleCursor.size() > 0) {
-            val brokerProjectRule = brokerProjectRuleCursor.first()
+            val brokerProjectRule = brokerProjectRuleCursor.last()
             val brokerProjectRuleResponse =
                 projectRuleResponseRepository.getBrokerProjectRuleResponseByBrokerProjectRuleId(
                     requireNotNull(brokerProjectRule.id).idValue,
                     0,
                     Int.MAX_VALUE
-                ).first()
-            println("Rewriting response for: $requestUriPath. Response: ${brokerProjectRuleResponse.body}")
-            context.respondText(brokerProjectRuleResponse.body, ContentType.Application.Json, HttpStatusCode.OK)
+                ).firstOrDefault()
+            if (brokerProjectRuleResponse == null) {
+                passThroughRequestAndReturnResponse(context, brokerProject, requestUri)
+            } else {
+                println("Rewriting response for: $requestUriPath.")
+                mockResponse(brokerProjectRuleResponse, context)
+            }
         } else {
             passThroughRequestAndReturnResponse(context, brokerProject, requestUri)
         }
+    }
+
+    private suspend fun mockResponse(
+        brokerProjectRuleResponse: BrokerProjectRuleResponse,
+        context: ApplicationCall
+    ) {
+        val headersBuilder = HeadersBuilder()
+        val responseHeaders = brokerProjectRuleResponse.headers.split("\\r?\\n")
+            .forEach {
+                val headerParts = it.split(":")
+                if (headerParts.size == 2) {
+                    headersBuilder.append(headerParts[0], headerParts[1])
+                }
+            }.run { headersBuilder.build() }
+
+        val responseContentType = responseHeaders["Content-Type"]
+            ?.run { ContentType.parse(this) } ?: ContentType.Application.Json
+
+        val responseStatusCode = HttpStatusCode.fromValue(brokerProjectRuleResponse.httpResponseCode)
+        val responseBody = brokerProjectRuleResponse.body
+
+        context.respond(object : OutgoingContent.ByteArrayContent() {
+            val bytes by lazy(LazyThreadSafetyMode.NONE) {
+                responseBody.toByteArray(
+                    responseContentType.charset() ?: Charsets.UTF_8
+                )
+            }
+            override val status = responseStatusCode
+            override val contentLength = bytes.size.toLong()
+            override val contentType = responseContentType
+            override fun bytes(): ByteArray = bytes
+            override val headers: Headers = Headers.build {
+                appendAll(responseHeaders.filter { key, _ ->
+                    !key.equals(
+                        HttpHeaders.ContentType,
+                        ignoreCase = true
+                    ) && !key.equals(HttpHeaders.ContentLength, ignoreCase = true)
+                })
+            }
+        })
     }
 
     private suspend fun passThroughRequestAndReturnResponse(
@@ -87,6 +132,7 @@ internal class BrokerResponseRewriterImpl(
         brokerProject: BrokerProject,
         requestUri: URI
     ) {
+        println("Skipping rewrite for $requestUri")
         val client = HttpClient()
         val recreatedOriginalRequest = buildOriginalRequest(context, brokerProject, requestUri)
         withContext(coroutineContext) {

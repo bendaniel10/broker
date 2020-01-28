@@ -23,8 +23,8 @@ object WebUIModule {
         single<ViewBrokerProjectResponseRuleUseCase> { ViewBrokerProjectResponseRuleUseCaseImpl(get(), get(), get()) }
         single<HowToBrokerUseCase> { HowToBrokerUseCaseImpl() }
         single<EditBrokerProjectUseCase> { EditBrokerProjectUseCaseImpl(get()) }
-        single<EditBrokerProjectResponseRuleUseCase> { EditBrokerProjectResponseRuleUseCaseImpl(get(), get(), get()) }
-        single<DeleteBrokerProjectResponseRuleUseCase> { DeleteBrokerProjectResponseRuleUseCaseImpl(get(), get()) }
+        single<EditBrokerProjectRuleUseCase> { EditBrokerProjectRuleUseCaseImpl(get(), get(), get()) }
+        single<DeleteBrokerProjectRuleUseCase> { DeleteBrokerProjectRuleUseCaseImpl(get(), get()) }
 
         // Routing - GET.
         single { ViewBrokerProjectPage(get()) }

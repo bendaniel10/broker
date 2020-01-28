@@ -2,7 +2,7 @@ package com.bendaniel10.broker.web.ui.routing.post
 
 import com.bendaniel10.broker.server.interceptor.HttpMethodRoutingInterceptor
 import com.bendaniel10.broker.web.ui.model.EditBrokerProjectResponseRuleModel
-import com.bendaniel10.broker.web.ui.usecase.EditBrokerProjectResponseRuleUseCase
+import com.bendaniel10.broker.web.ui.usecase.EditBrokerProjectRuleUseCase
 import com.bendaniel10.broker.web.ui.usecase.ViewBrokerProjectResponseRuleUseCase
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpMethod
@@ -10,14 +10,14 @@ import io.ktor.request.receiveParameters
 import io.ktor.response.respondRedirect
 
 class EditBrokerProjectResponseRulePageAction(
-    private val editBrokerProjectResponseRuleUseCase: EditBrokerProjectResponseRuleUseCase,
+    private val editBrokerProjectRuleUseCase: EditBrokerProjectRuleUseCase,
     private val viewBrokerProjectResponseRuleUseCase: ViewBrokerProjectResponseRuleUseCase
-) : HttpMethodRoutingInterceptor(HttpMethod.Post, "/edit_broker_project_response_rule") {
+) : HttpMethodRoutingInterceptor(HttpMethod.Post, editBrokerProjectRuleUseCase.viewPathUrl()) {
 
     override suspend fun intercept(call: ApplicationCall) {
         val params = call.receiveParameters()
 
-        editBrokerProjectResponseRuleUseCase.editBrokerProjectResponseRule(
+        editBrokerProjectRuleUseCase.editBrokerProjectResponseRule(
             EditBrokerProjectResponseRuleModel(
                 requireNotNull(params["brokerProjectRuleId"]),
                 requireNotNull(params["urlTrigger"]),

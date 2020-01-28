@@ -22,18 +22,18 @@ internal class ViewBrokerProjectResponseRuleUseCaseImpl(
         size: Int
     ): List<ViewBrokerProjectResponseRuleModel> {
         return brokerProjectRuleRepository.getBrokerProjectRuleByBrokerProjectId(brokerProjectId, start, size)
-            .mapNotNull { brokerProjectRule ->
+            .map { brokerProjectRule ->
                 brokerProjectRuleResponseRepository.getBrokerProjectRuleResponseByBrokerProjectRuleId(
                     requireNotNull(brokerProjectRule.id).idValue,
                     start,
                     size
-                ).firstOrNull()?.run {
+                ).firstOrNull().run {
                     ViewBrokerProjectResponseRuleModel(
                         requireNotNull(brokerProjectRule.id).idValue.toString(),
                         brokerProjectRule.urlTrigger,
-                        body,
-                        headers.substring(0..min(20, headers.length - 1)),
-                        httpResponseCode
+                        this?.body ?: "",
+                        this?.headers?.substring(0..min(20, headers.length - 1)) ?: "",
+                        this?.httpResponseCode ?: 200
                     )
                 }
             }

@@ -9,7 +9,7 @@
     <#include "/general_page_nav.ftl">
     <h2>Response rule for ${brokerProjectName}</h2>
     <br/>
-    <form method="post" action="/create_broker_project_response_rule">
+    <form method="post" action="/create_broker_project_rule">
         <input class="form-control" type="hidden" value="${brokerProjectToken}" name="brokerProjectToken"/>
         <div class="form-group">
             <label for="urlTrigger">URL trigger</label>
@@ -23,10 +23,10 @@
             <textarea class="form-control" id="responseBody" name="responseBody" placeholder="Optional response that should be returned whenever this URL is called." cols="40" rows="5"></textarea>
         </div>
         <div class="form-group">
-            <label for="headers">Response body</label>
-            <textarea class="form-control" id="headers" name="headers" placeholder="key=value" cols="40" rows="5" aria-describedby="headersHelpBlock"></textarea>
+            <label for="headers">Response headers</label>
+            <textarea class="form-control" id="headers" name="headers" placeholder="key:value" cols="40" rows="5" aria-describedby="headersHelpBlock"></textarea>
             <small id="headersHelpBlock" class="form-text text-muted" aria-describedby="urlTriggerHelpBlock">
-                Each header must be in a new line in this format: key=value
+                Each header must be in a new line in this format: `key:value`
             </small>
         </div>
         <div class="form-group">
