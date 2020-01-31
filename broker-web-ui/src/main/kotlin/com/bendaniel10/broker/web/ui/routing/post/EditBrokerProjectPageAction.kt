@@ -24,7 +24,7 @@ class EditBrokerProjectPageAction(
                 requireNotNull(params["name"]),
                 requireNotNull(params["description"]),
                 requireNotNull(params["originalUrl"]),
-                requireNotNull(params["brokerProjectEnabled"]).toBoolean()
+                params["brokerProjectEnabled"]?.toBoolean() ?: false
             )
         )
 

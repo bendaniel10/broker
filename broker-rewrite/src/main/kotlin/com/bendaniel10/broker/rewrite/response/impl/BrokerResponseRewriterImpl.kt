@@ -76,7 +76,7 @@ internal class BrokerResponseRewriterImpl(
                     0,
                     Int.MAX_VALUE
                 ).firstOrDefault()
-            if (brokerProjectRuleResponse == null) {
+            if (brokerProjectRuleResponse == null || !brokerProjectRuleResponse.enabled) {
                 passThroughRequestAndReturnResponse(context, brokerProject, requestUri)
             } else {
                 println("Rewriting response for: $requestUriPath.")

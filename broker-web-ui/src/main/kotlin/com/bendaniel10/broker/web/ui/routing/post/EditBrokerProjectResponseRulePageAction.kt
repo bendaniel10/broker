@@ -24,7 +24,7 @@ class EditBrokerProjectResponseRulePageAction(
                 requireNotNull(params["responseBody"]),
                 requireNotNull(params["headers"]),
                 requireNotNull(params["httpResponseCode"]).toInt(),
-                requireNotNull(params["brokerProjectResponseRuleEnabled"]).toBoolean()
+                params["brokerProjectResponseRuleEnabled"]?.toBoolean() ?: false
             )
         )
 
