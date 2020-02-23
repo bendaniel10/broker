@@ -25,7 +25,6 @@ import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.copyAndClose
 import kotlinx.coroutines.withContext
 import kotlinx.io.core.toByteArray
-import mu.KotlinLogging
 import java.net.URI
 import java.net.URL
 import kotlin.coroutines.coroutineContext
@@ -35,8 +34,6 @@ internal class BrokerResponseRewriterImpl(
     private val projectRuleRepository: BrokerProjectRuleRepository,
     private val projectRuleResponseRepository: BrokerProjectRuleResponseRepository
 ) : BrokerResponseRewriter {
-
-    private val logger = KotlinLogging.logger {}
 
     override suspend fun rewrite(pipelineContext: PipelineContext<Unit, ApplicationCall>) {
         val context = pipelineContext.context
@@ -57,12 +54,19 @@ internal class BrokerResponseRewriterImpl(
             .firstOrDefault()
 
         if (brokerProject == null) {
-            context.respond(HttpStatusCode.BadRequest)
+            context.respond(HttpStatusCode.NotFound)
             return
         }
+
         val requestUri = URI(
             "${context.request.local.scheme}://${context.request.local.host}:${context.request.port()}${context.request.uri}"
         )
+
+        if (!brokerProject.enabled) {
+            passThroughRequestAndReturnResponse(context, brokerProject, requestUri)
+            return
+        }
+
         val requestUriPath = requestUri.path.replaceFirst("/", "")
         val brokerProjectRuleCursor = projectRuleRepository.getBrokerProjectRuleByUrlAndProjectId(
             requireNotNull(brokerProject.id).idValue,
