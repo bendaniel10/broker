@@ -8,9 +8,10 @@ import com.bendaniel10.broker.storage.repository.BrokerProjectRuleRepository
 import com.bendaniel10.broker.storage.repository.BrokerProjectRuleResponseRepository
 import io.ktor.application.ApplicationCall
 import io.ktor.client.HttpClient
-import io.ktor.client.call.call
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.headers
+import io.ktor.client.request.request
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.request.header
@@ -20,11 +21,10 @@ import io.ktor.request.uri
 import io.ktor.response.respond
 import io.ktor.util.filter
 import io.ktor.util.pipeline.PipelineContext
-import kotlinx.coroutines.io.ByteReadChannel
-import kotlinx.coroutines.io.ByteWriteChannel
-import kotlinx.coroutines.io.copyAndClose
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.ByteWriteChannel
+import io.ktor.utils.io.copyAndClose
 import kotlinx.coroutines.withContext
-import kotlinx.io.core.toByteArray
 import java.net.URI
 import java.net.URL
 import kotlin.coroutines.coroutineContext
@@ -140,24 +140,25 @@ internal class BrokerResponseRewriterImpl(
         val client = HttpClient()
         val recreatedOriginalRequest = buildOriginalRequest(context, brokerProject, requestUri)
         withContext(coroutineContext) {
-            val originalResponse = client.call(recreatedOriginalRequest)
+            val originalResponse = client.request<HttpResponse>(recreatedOriginalRequest)
             context.respond(object : OutgoingContent.WriteChannelContent() {
-                val originalHeaders = originalResponse.response.headers
+                val originalHeaders = originalResponse.headers
                 override val contentLength: Long? = originalHeaders[HttpHeaders.ContentLength]?.toLong()
                 override val contentType: ContentType? =
                     originalHeaders[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
                 override val headers: Headers = Headers.build {
                     appendAll(originalHeaders.filter { key, _ ->
-                        !key.equals(
+                        !arrayOf(
                             HttpHeaders.ContentType,
-                            ignoreCase = true
-                        ) && !key.equals(HttpHeaders.ContentLength, ignoreCase = true)
+                            HttpHeaders.ContentLength,
+                            HttpHeaders.TransferEncoding
+                        ).contains(key)
                     })
                 }
-                override val status: HttpStatusCode? = originalResponse.response.status
+                override val status: HttpStatusCode? = originalResponse.status
 
                 override suspend fun writeTo(channel: ByteWriteChannel) {
-                    originalResponse.response.content.copyAndClose(channel)
+                    originalResponse.content.copyAndClose(channel)
                 }
             })
         }
