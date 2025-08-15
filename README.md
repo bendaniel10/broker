@@ -1,5 +1,5 @@
 # broker
-A server that can act as a middle man between a client and a target url. This way, a user can specify what urls to provide mock responses for. 
+A server that can act as a middle man between a client and a target url. This way, a user can specify what urls to provide mock responses for and also provide the mock response. 
 
 ## Prerequisites
 1. Point your app's URL to the mocking server's URL. For example, if my base URL is https://foobar.com then I'll change that to http://ip_address_where_server_is_running:8080. The ip address has mostly been my computer's ip address since that's where I'm running the server.
